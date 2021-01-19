@@ -3,7 +3,6 @@ const AWS = require('aws-sdk');
 var fileupload = require('express-fileupload');
 var ppt2png = require('ppt2png');
 const fs = require('fs');
-const AWS = require('aws-sdk');
 
 var app = express();
 
