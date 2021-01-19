@@ -1,9 +1,6 @@
-import express from'express'; // requre the express framework
-import Converter from 'ppt-png';
-import {
-    fileExists
-} from '@hckrnews/converter';
+var  express  = require('express'); // requre the express framework
 
+var ppt2png = require('ppt2png');
 
 var app = express();
 
@@ -15,11 +12,7 @@ var server = app.listen(8080, function(){
 })
 
 
-const converter = Converter.create({
-    files:  ['input/sample.ppt'],
-    output: 'output/',
-    outputType: 'jpeg'
-});
+
 
 
 
@@ -31,11 +24,13 @@ const converter = Converter.create({
 // Endpoint to Get a list of users
 app.get('/getUsers', function(req, res){
     console.log("get user");
-    const result = converter.convert();
-    console.log({
-        exists: fileExists('output/sample.pdf'),
-        result
-    });
+    ppt2png('./input/sample.ppt', './output/img', function( err ){
+        if(err) {
+            console.log(err);
+        } else {
+            console.log('convert successful.');
+        }
+    });    
     res.end("{ok}");
 })
 
