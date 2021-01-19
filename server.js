@@ -1,8 +1,11 @@
 var  express  = require('express'); // requre the express framework
 
+var fileupload = require('express-fileupload');
 var ppt2png = require('ppt2png');
 
 var app = express();
+
+app.use(fileupload());
 
 // Create a server to listen at port 8080
 var server = app.listen(8080, function(){
@@ -22,9 +25,13 @@ var server = app.listen(8080, function(){
 
 
 // Endpoint to Get a list of users
-app.get('/getUsers', function(req, res){
-    console.log("get user");
-    ppt2png('./input/sample.ppt', './output/img', function( err ){
+app.post('/upload', function(req, res, next){
+    console.log(req.files);
+    const file = req.files.ppt;
+    file.mv ('./input/1' + file.name, function(err,result){
+
+    });
+    ppt2png('./input/1' + file.name, './output/' + file.name, function( err ){
         if(err) {
             console.log(err);
         } else {
