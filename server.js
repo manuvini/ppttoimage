@@ -52,29 +52,15 @@ app.post('/upload', function(req, res, next){
         } else {
             console.log('convert successful.');
             let links = [];
-            for(var i=0; i< 20; i++){
+            for(var i=0; i< 5; i++){
                 const path = './output/' +fname + '-'+ i+'.png';
                 console.log(path);
                 if (fs.existsSync(path)) {
                     //file exists
-                    
-                    fs.readFile(path, (err, data) => {
-                        if (err) throw err;
-                        const params = {
-                            Bucket: BUCKET_NAME, // pass your bucket name
-                            Key: fname + '-'+ i+'.png', // file will be saved as testBucket/contacts.csv
-                            Body: JSON.stringify(data, null, 2)
-                        };
-                        s3.upload(params, function(s3Err, data) {
-                            console.log('hey u');
-                            if (s3Err) throw s3Err
-                            console.log(`File uploaded successfully at ${data.Location}`)
-                            links.push(data.Location);
-                        });
-                     });
-                    
+                    var k = fupload(path,i);
+                    links.push(k);
                 }else{
-                    i = 21;
+                    i = 6;
                 }
                 res.end(links+ "  mhjgjyhg");
                 links = [];
@@ -87,4 +73,22 @@ app.post('/upload', function(req, res, next){
     });    
     
 })
+
+async function fupload(path,i) {
+    fs.readFile(path, (err, data) => {
+        if (err) throw err;
+        const params = {
+            Bucket: BUCKET_NAME, // pass your bucket name
+            Key: fname + '-'+ i+'.png', // file will be saved as testBucket/contacts.csv
+            Body: data,
+            'ACL': 'public-read'
+        };
+        s3.upload(params, function(s3Err, data) {
+            console.log('hey u');
+            if (s3Err) throw s3Err
+            console.log(`File uploaded successfully at ${data.Location}`)
+            return (data.Location);
+        });
+     });
+}
 
