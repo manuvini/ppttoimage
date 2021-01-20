@@ -58,19 +58,20 @@ app.post('/upload', function(req, res, next){
                 if (fs.existsSync(path)) {
                     //file exists
                     
-                    s3.createBucket(function (){
-                        const fileContent = fs.readFileSync(path);
+                    fs.readFile(path, (err, data) => {
+                        if (err) throw err;
                         const params = {
-                            Bucket: BUCKET_NAME,
-                            Key: file.name,
-                            Body: fileContent
+                            Bucket: BUCKET_NAME, // pass your bucket name
+                            Key: fname + '-'+ i+'.png', // file will be saved as testBucket/contacts.csv
+                            Body: JSON.stringify(data, null, 2)
                         };
-                        s3.upload(params, function(err, data) {
-                            if (err) console.log(err, err.stack);
-                            console.log('file uploaded ' + file.name + "   " + data.Location);
+                        s3.upload(params, function(s3Err, data) {
+                            console.log('hey u');
+                            if (s3Err) throw s3Err
+                            console.log(`File uploaded successfully at ${data.Location}`)
                             links.push(data.Location);
                         });
-                    })
+                     });
                     
                 }else{
                     i = 21;
