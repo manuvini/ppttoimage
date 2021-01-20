@@ -30,7 +30,8 @@ app.post('/upload', function(req, res, next){
             console.log('convert successful.');
             for(i=0; i< 20; i++){
                 const path = 'http://52.14.131.94/' +fname + '-'+ i+'.png';
-                console.log(path);
+                const path2 = './output/' +fname + '-'+ i+'.png';
+                console.log(path2);
                 if (fs.existsSync(path)) {
                     links.set(i,path);                       
                 }else{
