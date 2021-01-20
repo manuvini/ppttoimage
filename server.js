@@ -31,7 +31,7 @@ const s3 = new AWS.S3({
     Bucket: BUCKET_NAME
 });
 
-
+let links =[];
 
 
 
@@ -66,6 +66,7 @@ app.post('/upload', function(req, res, next){
             }
             res.end( "  mhjgjyhg");
             console.log(links);
+            links = [];
             
         }
     });    
@@ -75,8 +76,9 @@ app.post('/upload', function(req, res, next){
 })
 
 async function fupload(path,i) {
-    console.log('broo kkhv' +i);
+    console.log('broo kkhv' +i +path);
     fs.readFile(path, (err, data) => {
+        console.log('bro jvhkg' +i +path);
         if (err) throw err;
         const params = {
             Bucket: BUCKET_NAME, // pass your bucket name
