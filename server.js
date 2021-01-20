@@ -32,7 +32,8 @@ const s3 = new AWS.S3({
 });
 
 let links =[];
-
+let paths = [];
+let params = [];
 
 
 
@@ -40,7 +41,7 @@ let links =[];
 
 
 // Endpoint to Get a list of users
-app.post('/upload', function(req, res, next){
+app.post('/upload',async function(req, res, next){
     console.log(req.files);
     const file = req.files.ppt;
     const fname = file.name.split('.').slice(0, -1).join('.');
@@ -57,36 +58,14 @@ app.post('/upload', function(req, res, next){
                 const path = './output/' +fname + '-'+ i+'.png';
                 console.log(path);
                 if (fs.existsSync(path)) {
-                    //file exists
-                    fs.readFileAsync = function fupload(path,i) {
-                        return new Promise(function(resolve, reject) {
-                        console.log('broo kkhv' +i +path);
-                        
-                        fs.readFile(path, (err, data) => {
-                            console.log('bro jvhkg' +i +path);
-                            if (err) throw err;
-                            const params = {
-                                Bucket: BUCKET_NAME, // pass your bucket name
-                                Key: fname + '-'+ i+'.png', // file will be saved as testBucket/contacts.csv
-                                Body: data,
-                                'ACL': 'public-read'
-                            };
-                            s3.upload(params, function(s3Err, data) {
-                                console.log('hey u');
-                                if (s3Err) throw s3Err
-                                console.log(`File uploaded successfully at ${data.Location}`)
-                                links.push(data.Location);
-                            });
-                         });
-                        });
-                        
-                    }
-                    
-                    
+                    paths.push(path);                        
                 }else{
                     i = 6;
                 }
             }
+            testgg();
+            
+            console.log(responses);
             res.end( "  mhjgjyhg");
             console.log(links);
             links = [];
@@ -98,4 +77,55 @@ app.post('/upload', function(req, res, next){
     
 })
 
+async function testgg(){
+    for(var k =0; k<paths.length; k++){
+        const rep = await Promise.all(
+            fs.readFile(path[k], (err, data) => {
+                const para = {
+                    Bucket: BUCKET_NAME, // pass your bucket name
+                    Key: fname + '-'+ k+'.png', // file will be saved as testBucket/contacts.csv
+                    Body: data,
+                    'ACL': 'public-read'
+                };
+                params.push(para)
+                console.log("hello");
+            })
+        );
+           
+        
+        
+    }
 
+    const responses = await Promise.all(
+        params.map(param => s3.upload(param, function(s3Err, data) {
+            console.log('hey u');
+            if (s3Err) throw s3Err
+            console.log(`File uploaded successfully at ${data.Location}`)
+            links.push(data.Location);
+        }).promise())
+    )
+}
+
+// fs.readFileAsync = function fupload(path,i) {
+//     return new Promise(function(resolve, reject) {
+//     console.log('broo kkhv' +i +path);
+    
+//     fs.readFile(path, (err, data) => {
+//         console.log('bro jvhkg' +i +path);
+//         if (err) throw err;
+//         const params = {
+//             Bucket: BUCKET_NAME, // pass your bucket name
+//             Key: fname + '-'+ i+'.png', // file will be saved as testBucket/contacts.csv
+//             Body: data,
+//             'ACL': 'public-read'
+//         };
+//         s3.upload(params, function(s3Err, data) {
+//             console.log('hey u');
+//             if (s3Err) throw s3Err
+//             console.log(`File uploaded successfully at ${data.Location}`)
+//             links.push(data.Location);
+//         });
+//      });
+//     });
+    
+// }
