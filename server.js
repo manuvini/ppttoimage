@@ -31,17 +31,16 @@ app.post('/upload', function(req, res, next){
             for(var i=0; i< 20; i++){
                 const path = 'http://52.14.131.94/' +fname + '-'+ i+'.png';
                 const path2 = './output/' +fname + '-'+ i+'.png';
-                console.log(path2);
+                console.log(path);
                 if (fs.existsSync(path2)) {
                     links.push(path);                       
                 }else{
                     i = 21;
                 }
             }
-            res.send(links.map(link => {
-                `<h1>${link}</h1><br>
-                `
-              }).join(''));
+            console.log(links);
+            res.send(JSON.stringify(links));
+            links = [];
         }
     });    
 
@@ -50,3 +49,4 @@ app.post('/upload', function(req, res, next){
 })
 
 
+s
