@@ -58,8 +58,31 @@ app.post('/upload', function(req, res, next){
                 console.log(path);
                 if (fs.existsSync(path)) {
                     //file exists
-                    var k = fupload(path,i);
-                    links.push(k);
+                    fs.readFileAsync = function fupload(path,i) {
+                        return new Promise(function(resolve, reject) {
+                        console.log('broo kkhv' +i +path);
+                        
+                        fs.readFile(path, (err, data) => {
+                            console.log('bro jvhkg' +i +path);
+                            if (err) throw err;
+                            const params = {
+                                Bucket: BUCKET_NAME, // pass your bucket name
+                                Key: fname + '-'+ i+'.png', // file will be saved as testBucket/contacts.csv
+                                Body: data,
+                                'ACL': 'public-read'
+                            };
+                            s3.upload(params, function(s3Err, data) {
+                                console.log('hey u');
+                                if (s3Err) throw s3Err
+                                console.log(`File uploaded successfully at ${data.Location}`)
+                                links.push(data.Location);
+                            });
+                         });
+                        });
+                        
+                    }
+                    
+                    
                 }else{
                     i = 6;
                 }
@@ -75,23 +98,4 @@ app.post('/upload', function(req, res, next){
     
 })
 
-async function fupload(path,i) {
-    console.log('broo kkhv' +i +path);
-    fs.readFile(path, (err, data) => {
-        console.log('bro jvhkg' +i +path);
-        if (err) throw err;
-        const params = {
-            Bucket: BUCKET_NAME, // pass your bucket name
-            Key: fname + '-'+ i+'.png', // file will be saved as testBucket/contacts.csv
-            Body: data,
-            'ACL': 'public-read'
-        };
-        s3.upload(params, function(s3Err, data) {
-            console.log('hey u');
-            if (s3Err) throw s3Err
-            console.log(`File uploaded successfully at ${data.Location}`)
-            return (data.Location);
-        });
-     });
-}
 
