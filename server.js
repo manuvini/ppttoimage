@@ -51,26 +51,24 @@ app.post('/upload', function(req, res, next){
             console.log(err);
         } else {
             console.log('convert successful.');
+            res.end( "  mhjgjyhg");
             let links = [];
-            for(var i=0; i< 5; i++){
-                const path = './output/' +fname + '-'+ i+'.png';
-                console.log(path);
-                if (fs.existsSync(path)) {
-                    //file exists
-                    var k = fupload(path,i);
-                    links.push(k);
-                }else{
-                    i = 6;
-                }
-                res.end(links+ "  mhjgjyhg");
-                links = [];
-
-
-
-            }
-        
         }
     });    
+
+    for(var i=0; i< 5; i++){
+        const path = './output/' +fname + '-'+ i+'.png';
+        console.log(path);
+        if (fs.existsSync(path)) {
+            //file exists
+            var k = fupload(path,i);
+            links.push(k);
+        }else{
+            i = 6;
+        }
+        links = [];
+        console.log(links);
+    }
     
 })
 
