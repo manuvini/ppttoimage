@@ -14,7 +14,7 @@ var server = app.listen(8080, function(){
 })
 
 // Enter copied or downloaded access ID and secret key here
-let links = new Map();
+let links = [];
 // Endpoint to Get a list of users
 app.post('/upload', function(req, res, next){
     console.log(req.files);
@@ -28,17 +28,20 @@ app.post('/upload', function(req, res, next){
             console.log(err);
         } else {
             console.log('convert successful.');
-            for(i=0; i< 20; i++){
+            for(var i=0; i< 20; i++){
                 const path = 'http://52.14.131.94/' +fname + '-'+ i+'.png';
                 const path2 = './output/' +fname + '-'+ i+'.png';
-                console.log(path);
+                console.log(path2);
                 if (fs.existsSync(path2)) {
-                    links.set(i,path);                       
+                    links.push(path);                       
                 }else{
                     i = 21;
                 }
             }
-            res.end(JSON.stringify(links));
+            res.send(links.map(link => {
+                `<h1>${link}</h1><br>
+                `
+              }).join(''));
         }
     });    
 
