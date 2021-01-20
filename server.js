@@ -65,7 +65,7 @@ app.post('/upload',async function(req, res, next){
             }
             testgg();
             
-            console.log(responses);
+           
             res.end( "  mhjgjyhg");
             console.log(links);
             links = [];
@@ -78,6 +78,7 @@ app.post('/upload',async function(req, res, next){
 })
 
 async function testgg(){
+    console.log('kdf');
     for(var k =0; k<paths.length; k++){
         const rep = await Promise.all(
             fs.readFile(path[k], (err, data) => {
