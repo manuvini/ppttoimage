@@ -31,8 +31,8 @@ app.post('/upload', function(req, res, next){
             for(i=0; i< 20; i++){
                 const path = 'http://52.14.131.94/' +fname + '-'+ i+'.png';
                 const path2 = './output/' +fname + '-'+ i+'.png';
-                console.log(path2);
-                if (fs.existsSync(path)) {
+                console.log(path);
+                if (fs.existsSync(path2)) {
                     links.set(i,path);                       
                 }else{
                     i = 21;
