@@ -1,0 +1,23 @@
+sudo apt update
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt install nodejs
+sudo apt-get install unoconv libreoffice-dev imagemagick
+git clone https://github.com/manuvini/ppttoimage.git
+cd ppttoimage
+npm install
+cd /etc/ImageMagick-6/
+sudo nano policy.xml
+<policy domain="module" rights="read|write" pattern="{PS,PDF,XPS}" /> <!--  -->
+sudo apt-get install apache2
+ cd /etc/apache2/sites-available
+ sudo nano 000-default.conf
+home/ubuntu/ppttoimage/output
+cd ..
+sudo  nano apache2.conf
+<Directory />
+     Options Indexes FollowSymLinks Includes ExecCGI
+     AllowOverride All
+     Require all granted
+ </Directory>
+ sudo service apache2 restart
+
