@@ -1,7 +1,9 @@
 var  express  = require('express'); // requre the express framework
 var ppt2png = require('ppt2png');
 const fs = require('fs');
+var fileupload = require('express-fileupload');
 var app = express();
+app.use(fileupload());
 
 
 // Create a server to listen at port 8080
@@ -14,7 +16,7 @@ var server = app.listen(8080, function(){
 // Enter copied or downloaded access ID and secret key here
 let links = new Map();
 // Endpoint to Get a list of users
-app.post('/upload',async function(req, res, next){
+app.post('/upload', function(req, res, next){
     console.log(req.files);
     const file = req.files.ppt;
     const fname = file.name.split('.').slice(0, -1).join('.');
