@@ -26,7 +26,8 @@ const BUCKET_NAME = 'splodeit';
 
 const s3 = new AWS.S3({
     accessKeyId: ID,
-    secretAccessKey: SECRET
+    secretAccessKey: SECRET,
+    Bucket: BUCKET_NAME
 });
 
 
@@ -56,26 +57,25 @@ app.post('/upload', function(req, res, next){
                 console.log(path);
                 if (fs.existsSync(path)) {
                     //file exists
-                    const fileContent = fs.readFileSync(file);
-                    const params = {
-                        Bucket: BUCKET_NAME,
-                        Key: file.name,
-                        Body: fileContent
-                        // CreateBucketConfiguration: {
-                        //     // Set your region here
-                        //     LocationConstraint: "us-east-2"
-                        // }
-                    };
-
-                    s3.upload(params, function(err, data) {
-                        if (err) console.log(err, err.stack);
-                        console.log('file uploaded ' + file.name + "   " + data.Location);
-                        links.push(data.Location);
-                    });
+                    
+                    s3.createBucket(function (){
+                        const fileContent = fs.readFileSync(path);
+                        const params = {
+                            Bucket: BUCKET_NAME,
+                            Key: file.name,
+                            Body: fileContent
+                        };
+                        s3.upload(params, function(err, data) {
+                            if (err) console.log(err, err.stack);
+                            console.log('file uploaded ' + file.name + "   " + data.Location);
+                            links.push(data.Location);
+                        });
+                    })
+                    
                 }else{
                     i = 21;
                 }
-                res.end(links);
+                res.end(links+ "  mhjgjyhg");
                 links = [];
 
 
@@ -86,6 +86,4 @@ app.post('/upload', function(req, res, next){
     });    
     
 })
-
-
 
