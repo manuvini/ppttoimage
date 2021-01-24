@@ -1,5 +1,6 @@
 var  express  = require('express'); // requre the express framework
 var ppt2png = require('./ppttopng');
+var ppt2pdf = require('./ppttopdf');
 const fs = require('fs');
 var fileupload = require('express-fileupload');
 var app = express();
@@ -18,7 +19,12 @@ let links = [];
 // Endpoint to Get a list of users
 app.post('/upload', function(req, res, next){
     console.log(req.files);
-    const file = req.files.ppt;
+    const pfile = req.files.pdf
+    const pptfile = req.files.ppt;
+    
+    console.log(pptfile);
+    const file = pptfile;
+    
     const fname = file.name.split('.').slice(0, -1).join('.');
     file.mv ('./input/1' + file.name, function(err,result){
 
