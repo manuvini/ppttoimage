@@ -1,5 +1,5 @@
 var  express  = require('express'); // requre the express framework
-var ppt2png = require('ppttopng');
+var ppt2png = require('./ppttopng');
 const fs = require('fs');
 var fileupload = require('express-fileupload');
 var app = express();
