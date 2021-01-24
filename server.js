@@ -35,7 +35,7 @@ app.post('/upload', function(req, res, next){
         } else {
             console.log('convert successful.');
             for(var i=0; i< 20; i++){
-                const path = 'http://52.14.131.94/' +fname + '-'+ i+'.png';
+                const path = 'http://13.58.42.235/' +fname + '-'+ i+'.png';
                 const path2 = './output/' +fname + '-'+ i+'.png';
                 console.log(path);
                 if (fs.existsSync(path2)) {
