@@ -17,21 +17,48 @@ var server = app.listen(8080, function(){
 // Enter copied or downloaded access ID and secret key here
 let links = [];
 // Endpoint to Get a list of users
-app.post('/upload', function(req, res, next){
+app.post('/uploadppt', function(req, res, next){
     console.log(req.files);
-    const pfile = req.files.pdf
-    const pptfile = req.files.ppt;
-    
-    if(pfile == "undefined"){
-        console.log('ley');
-    }
-    const file = pptfile;
+    const file = req.files.ppt;
     
     const fname = file.name.split('.').slice(0, -1).join('.');
     file.mv ('./input/1' + file.name, function(err,result){
 
     });
     ppt2png('./input/1' + file.name, './output/' + fname, function( err ){
+        if(err) {
+            console.log(err);
+        } else {
+            console.log('convert successful.');
+            for(var i=0; i< 20; i++){
+                const path = 'http://13.58.42.235/' +fname + '-'+ i+'.png';
+                const path2 = './output/' +fname + '-'+ i+'.png';
+                console.log(path);
+                if (fs.existsSync(path2)) {
+                    links.push(path);                       
+                }else{
+                    i = 21;
+                }
+            }
+            console.log(links);
+            res.send(JSON.stringify(links));
+            links = [];
+        }
+    });    
+    
+})
+
+
+
+app.post('/uploadpdf', function(req, res, next){
+    console.log(req.files);
+    const file = req.files.ppt;
+    
+    const fname = file.name.split('.').slice(0, -1).join('.');
+    file.mv ('./input/1' + file.name, function(err,result){
+
+    });
+    pdf2png('./input/1' + file.name, './output/' + fname, function( err ){
         if(err) {
             console.log(err);
         } else {
