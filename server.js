@@ -22,7 +22,9 @@ app.post('/upload', function(req, res, next){
     const pfile = req.files.pdf
     const pptfile = req.files.ppt;
     
-    console.log(pptfile);
+    if(pfile == "undefined"){
+        console.log('ley');
+    }
     const file = pptfile;
     
     const fname = file.name.split('.').slice(0, -1).join('.');
