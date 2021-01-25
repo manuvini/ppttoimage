@@ -24,6 +24,7 @@ var ppt2png = function(input, output, callback) {
 }
 
 var pdf2png = function(input, output, callback) {
+  var ekr = null;
   exec('convert -resize 1024 -density 100 ' + input + ' ' + output+'.jpg', 
     function (error, stdout, stderr) {
       if (error) {
@@ -33,23 +34,23 @@ var pdf2png = function(input, output, callback) {
           const path = output + '-'+ i;
           const path2 = output + '-'+ i+'.png';
           if(fs.existsSync(path+'.jpg')){
-            exec('convert '+ path + '.jpg ' + '-quality 50% '+ path + '50p.jpg', 
+            exec('convert '+ path + '.jpg ' + '-quality 10% '+ path + '50p.jpg', 
             function (error, stdout, stderr) {
               if (error) {
-                callback(error);
-              } else {
-                callback(null);
-              }
+                ekr = error;
+              } 
             });
           }else{
               i = 21;
           }
+        }
+        callback(ekr);
       }
     });
     
   }
    
-  }
+  
 
 
 // ppt to jpg by unoconv directly
