@@ -42,7 +42,7 @@ app.post('/uploadppt', function(req, res, next){
         } else {
             console.log('convert successful.');
             for(var i=0; i< 20; i++){
-                const path = 'http://18.217.151.159/' +fname + '-'+ i+'.jpg';
+                const path = 'http://18.217.151.159/' +fname + '-'+ i+'50p.jpg';
                 const path2 = './output/' +fname + '-'+ i+'.jpg';
                 console.log(path);
                 if (fs.existsSync(path2)) {
