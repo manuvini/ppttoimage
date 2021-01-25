@@ -4,6 +4,8 @@ var pdf2png = require('./ppttopdf');
 const fs = require('fs');
 var fileupload = require('express-fileupload');
 var app = express();
+var exec = require('child_process').exec;
+
 app.use(fileupload());
 
 var allowCrossDomain = function(req, res, next) {
@@ -71,6 +73,36 @@ app.post('/uploadpdf', function(req, res, next){
         if(err) {
             console.log(err);
         } else {
+            for(var i=0; i< 20; i++){
+                const path = output + '-'+ i;
+                const path2 = output + '-'+ i+'.png';
+                if (fs.existsSync(path2)) {
+                  exec('convert '+ path2 + ' -resize 1024x ' + path + '.jpg', 
+                  function (error, stdout, stderr) {
+                    if(fs.existsSync(path2+'.jpg')){
+                      exec('convert '+ path + '.jpg ' + '-quality 50% '+ path + '50p.jpg', 
+                      function (error, stdout, stderr) {
+                        if (error) {
+                          callback(error);
+                        } else {
+                          callback(null);
+                        }
+                      });
+                    }
+          
+                    if (error) {
+                      callback(error);
+                    } else {
+                      callback(null);
+                    }
+                  });
+                  
+                 
+                }else{
+                    i = 21;
+                }
+            }
+
             console.log('convert successful.');
             for(var i=0; i< 20; i++){
                 const path = 'http://13.58.42.235/' +fname + '-'+ i+'.png';
