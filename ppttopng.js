@@ -24,7 +24,7 @@ var ppt2png = function(input, output, callback) {
 }
 
 var pdf2png = function(input, output, callback) {
-  exec('convert -resize 1200 -density 200 ' + input + ' ' + output+'.jpg', 
+  exec('convert -resize 1024 -density 100 ' + input + ' ' + output+'.jpg', 
     function (error, stdout, stderr) {
       if (error) {
         callback(error);
