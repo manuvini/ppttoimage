@@ -34,7 +34,7 @@ var pdf2png = function(input, output, callback) {
           const path = output + '-'+ i;
           const path2 = output + '-'+ i+'.png';
           if(fs.existsSync(path+'.jpg')){
-            exec('convert '+ path + '.jpg ' + '-quality 10% '+ path + '50p.jpg', 
+            exec('convert '+ path + '.jpg ' + '-quality 50% '+ path + '50p.jpg', 
             function (error, stdout, stderr) {
               if (error) {
                 ekr = error;
