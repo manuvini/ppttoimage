@@ -1,10 +1,21 @@
 var  express  = require('express'); // requre the express framework
 var ppt2png = require('./ppttopng');
-var ppt2pdf = require('./ppttopdf');
+var pdf2png = require('./ppttopdf');
 const fs = require('fs');
 var fileupload = require('express-fileupload');
 var app = express();
 app.use(fileupload());
+
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+}
+app.configure(function() {
+    app.use(allowCrossDomain);
+    //some other code
+}); 
 
 
 // Create a server to listen at port 8080
