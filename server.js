@@ -12,10 +12,8 @@ var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 }
-app.configure(function() {
-    app.use(allowCrossDomain);
-    //some other code
-}); 
+app.use(allowCrossDomain);
+
 
 
 // Create a server to listen at port 8080
