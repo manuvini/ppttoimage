@@ -24,7 +24,7 @@ var ppt2png = function(input, output, callback) {
 }
 
 var pdf2png = function(input, output, callback) {
-  exec('convert -resize 1200 -density 200 ' + input + ' ' + output+'.png', 
+  exec('convert -resize 1200 -density 200 ' + input + ' ' + output+'.jpg', 
     function (error, stdout, stderr) {
       if (error) {
         callback(error);
@@ -32,7 +32,35 @@ var pdf2png = function(input, output, callback) {
         callback(null);
       }
     });
+    for(var i=0; i< 20; i++){
+      const path = output + '-'+ i;
+      const path2 = output + '-'+ i+'.png';
+      if (fs.existsSync(path2)) {
+        exec('convert '+ path2 + ' -resize 1024x ' + path + '.jpg', 
+        function (error, stdout, stderr) {
+          if(fs.existsSync(path2+'.jpg')){
+            exec('convert '+ path + '.jpg ' + '-quality 50% '+ path + '50p.jpg', 
+            function (error, stdout, stderr) {
+              if (error) {
+                callback(error);
+              } else {
+                callback(null);
+              }
+            });
+          }
 
+          if (error) {
+            callback(error);
+          } else {
+            callback(null);
+          }
+        });
+        
+       
+      }else{
+          i = 21;
+      }
+  }
    
   }
 
