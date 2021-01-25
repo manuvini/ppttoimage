@@ -39,20 +39,25 @@ var pdf2png = function(input, output, callback) {
       if (fs.existsSync(path2)) {
         exec('convert '+ path2 + ' -resize 1024x ' + path + '.jpg', 
         function (error, stdout, stderr) {
+          if(fs.existsSync(path2+'.jpg')){
+            exec('convert '+ path + '.jpg ' + '-quality 50% '+ path + '50p.jpg', 
+            function (error, stdout, stderr) {
+              if (error) {
+                callback(error);
+              } else {
+                callback(null);
+              }
+            });
+          }
+
           if (error) {
             callback(error);
           } else {
             callback(null);
           }
         });
-        exec('convert '+ path + '.jpg ' + '-quality 50% '+ path + '50p.jpg', 
-        function (error, stdout, stderr) {
-          if (error) {
-            callback(error);
-          } else {
-            callback(null);
-          }
-        });
+        
+       
       }else{
           i = 21;
       }
