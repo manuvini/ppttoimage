@@ -11,7 +11,7 @@ app.use(fileupload());
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Headers', '*');
     next();
 }
 app.use(allowCrossDomain);
@@ -42,7 +42,7 @@ app.post('/uploadppt', function(req, res, next){
         } else {
             console.log('convert successful.');
             for(var i=0; i< 20; i++){
-                const path = 'http://18.217.151.159/' +fname + '-'+ i+'50p.jpg';
+                const path = 'http://ec2-3-14-64-91.us-east-2.compute.amazonaws.com/' +fname + '-'+ i+'50p.jpg';
                 const path2 = './output/' +fname + '-'+ i+'.jpg';
                 console.log(path);
                 if (fs.existsSync(path2)) {

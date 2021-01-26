@@ -17,7 +17,6 @@ var ppt2png = function(input, output, callback) {
           }
 
         });
-
         callback(err);       
       });
     });
