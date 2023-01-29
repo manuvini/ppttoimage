@@ -89,7 +89,7 @@ app.delete("/delete-folder/:folderName/:keykey", (req, res) => {
     const Key = req.params.keykey;
 
     if(Key=="manu"){
-        const folderPath = `/path/to/${folderName}`; // replace with the actual path to the folder you want to delete
+        const folderPath = `${folderName}`; // replace with the actual path to the folder you want to delete
   
         fs.rmdir(folderPath, { recursive: true }, (err) => {
           if (err) {
