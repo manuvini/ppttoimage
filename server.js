@@ -98,8 +98,10 @@ app.delete("/delete-folder/:folderName/:keykey", (req, res) => {
             res.status(200).send(`Folder ${folderName} deleted successfully!`);
           }
         });
+    }else{
+        res.status(200).send("fuckoff: ");
     }
-    res.status(500).send("fuckoff: " + err);
+    
 
    
   });
